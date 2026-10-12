@@ -25,3 +25,14 @@ class LedDB:
             conn.commit()
         finally:
             conn.close()
+
+
+def get_recent(self, pin):
+    """해당 핀의 기록을 최신순으로 10개만 돌려줌"""
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("select * from led_record where pin = %s order by id desc limit 10", (pin,))
+        return cur.fetchall()
+    finally:
+        conn.close()
